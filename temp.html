@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="myDiv"><p>asdasddddddddddddddd Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi unde amet expedita consectetur voluptas hic, cumque possimus rerum ipsam ratione laborum, distinctio debitis! Error, maiores ipsam eum provident perferendis rem minus nam ducimus!</p></div>
+    <button onclick="gene()">generate</button>
+    <script>
+        function gene(){
+            const divToConvert = document.getElementById('myDiv');
+
+            // Set the options for html2pdf
+            const options = {
+                filename: 'div-to-pdf.pdf',  // Filename to save the PDF
+                margin: 10,                  // Margin in millimeters
+                jsPDF: {                     // Options for the jsPDF library
+                format: 'a4',              // Page format: 'a4', 'letter', etc.
+                }
+            };
+
+            // Use html2pdf to convert the div to PDF
+            html2pdf().set(options).from(divToConvert).save();
+        }
+    </script>
+</body>
+</html>

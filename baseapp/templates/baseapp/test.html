@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(230, 230, 230);
+        }
+        #logoDiv img {
+            width: 30mm;
+        }
+
+        #logoDiv {
+            margin: auto;
+            width: fit-content;
+        }
+
+        #bill {
+            /* background-color: red; */
+            background-color: white;
+            width: 80mm;
+            padding: 2.5mm;
+            margin: auto;
+            margin-top: 5ch;
+        }
+
+        #two {
+            /* display: block; */
+        }
+
+        #one {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        #one::before {
+            content: '';
+            position: absolute;
+            height: 0;
+            width: 100%;
+            left: 0;
+            top: 46%;
+            border-top: 1px dashed #666;
+        }
+
+        #one span {
+            display: inline-flex;
+            padding: 0 5px;
+            background-color: #fff;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .details {
+            /* display: flex; */
+
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .detailLeft {
+            flex: 1;
+            text-align: left;
+            /* align-self: left; */
+        }
+
+        .detailRight {
+            flex: 1;
+            text-align: right;
+            /* align-self:right; */
+        }
+        #billTable{
+            width: 100%;
+        }
+        #billTableHead th{
+            text-align: left;
+            border-top: 1px dashed #666;
+            border-bottom: 1px dashed #666;
+        }
+        #billTableHead tr::before{
+        }
+        #billTableBody td{
+            /* border-top: 1px dashed #666; */
+            border-bottom: 1px dashed #666;
+
+        }
+        #subTotal{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #subTotal .title{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #subTotal .data{
+            width: 6ch;
+            /* width: 6ch; */
+        }
+        #taxes{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #taxes .name{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #taxes .amount{
+            width: 6ch;
+            /* width: 6ch; */
+        }
+        #taxes .rate{
+
+        }
+        .tax{
+            display: flex;
+        }
+        #total{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #total .title{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #total .amount{
+            width: 6ch;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bill">
+        <div id="logoDiv"><img src="bb.jpg" alt=""></div>
+        <div class="two">
+            <div id="one"><span>RECIEPT</span></div>
+        </div>
+        <br>
+        <div id="detailss">
+            <div class="details">
+                <div class="flex">
+                    <div class="detailLeft">
+                        <span class="dedtailHead">Name :</span><span class="detailValue">Aman Ansari</span>
+                    </div>
+                    <div class="detailRight">
+                        <span class="dedtailHead">Bill NO:</span><span class="detailValue">00000</span>
+                    </div>
+                </div>
+                <br>
+                <div class="flex">
+                    <div class="detailLeft">
+                        <span class="dedtailHead">Table :</span><span class="detailValue">10</span>
+                    </div>
+                    <div class="detailRight">
+                        <span class="dedtailHead">Date :</span><span class="detailValue">21/02/2001</span>
+                    </div>
+                </div>
+            </div>
+            
+            <table id="billTable">
+                <thead id="billTableHead">
+                    <tr>
+                        <th class="">Item</th>
+                        <th class="">Price</th>
+                        <th class="">Qty</th>
+                        <th class="">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="billTableBody">
+                    <tr>
+                        <td>Samaosa</td>
+                        <td>10</td>
+                        <td>2</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>Kachori</td>
+                        <td>20</td>
+                        <td>3</td>
+                        <td>60</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div id="subTotal"><span class="title">Sub Total : </span><span class="data" >300</span></div>
+
+        <div id="taxes">
+            <div class="tax"><span class="name">GST : </span><span class="rate">10%</span><span class="amount" >300</span></div>
+        </div>
+        <div class="two" style="width: 50%; margin-left: auto;">
+            <div id="one"></div>
+        </div>
+        <div id="total"><span class="title">Total : </span><span class="amount" >300</span></div>
+    </div>
+    <button onclick="convertDivToPdf()">Download</button>
+    <script>
+        function convertDivToPdf() {
+  // Get the div element
+  const div = document.getElementById('bill');
+  let h =document.querySelector("#bill").offsetWidth;   
+
+  // Create a new window or tab for the print view
+  const printWindow = window.open('', '_blank');
+
+  // Generate the HTML content with the div
+  const htmlContent = `
+    <html>
+    <head>
+      <style>
+        @page {
+          size: 10mm auto; /* Set the desired width and adjust height proportionally */
+          margin: 0; /* Remove any margin */
+        }
+        /* Add any other necessary styles here */
+      </style>
+      <style>
+        
+        #logoDiv img {
+            width: 30mm;
+        }
+
+        #logoDiv {
+            margin: auto;
+            width: fit-content;
+        }
+
+        #bill {
+            /* background-color: red; */
+            background-color: white;
+            width: 80mm;
+            padding: 2.5mm;
+            margin: auto;
+            margin-top: 5ch;
+        }
+
+        #two {
+            /* display: block; */
+        }
+
+        #one {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        #one::before {
+            content: '';
+            position: absolute;
+            height: 0;
+            width: 100%;
+            left: 0;
+            top: 46%;
+            border-top: 1px dashed #666;
+        }
+
+        #one span {
+            display: inline-flex;
+            padding: 0 5px;
+            background-color: #fff;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .details {
+            /* display: flex; */
+
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .detailLeft {
+            flex: 1;
+            text-align: left;
+            /* align-self: left; */
+        }
+
+        .detailRight {
+            flex: 1;
+            text-align: right;
+            /* align-self:right; */
+        }
+        #billTable{
+            width: 100%;
+        }
+        #billTableHead th{
+            text-align: left;
+            border-top: 1px dashed #666;
+            border-bottom: 1px dashed #666;
+        }
+        #billTableHead tr::before{
+        }
+        #billTableBody td{
+            /* border-top: 1px dashed #666; */
+            border-bottom: 1px dashed #666;
+
+        }
+        #subTotal{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #subTotal .title{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #subTotal .data{
+            width: 6ch;
+            /* width: 6ch; */
+        }
+        #taxes{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #taxes .name{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #taxes .amount{
+            width: 6ch;
+            /* width: 6ch; */
+        }
+        #taxes .rate{
+
+        }
+        .tax{
+            display: flex;
+        }
+        #total{
+            display: flex;
+            text-align: right;
+            justify-content: flex-end;
+            padding: 3px 0;
+        }
+        #total .title{
+            font-weight: 500;
+            padding-right: 20px;
+        }
+        #total .amount{
+            width: 6ch;
+        }
+        </style>
+    </head>
+    <body>
+      ${div.innerHTML}
+    </body>
+    </html>
+  `;
+    console.log(htmlContent);
+  // Set the content of the print window to the generated HTML
+  printWindow.document.open();
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+
+  // Wait for the content to load
+  printWindow.onload = function () {
+    // Print the window
+    printWindow.print();
+    // Close the print window after printing (optional)
+    // printWindow.close();
+  };
+}
+    </script>
+</body>
+
+</html>
+
+
+

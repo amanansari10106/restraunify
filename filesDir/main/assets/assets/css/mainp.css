@@ -1,0 +1,117 @@
+html {
+    scroll-behavior: smooth;
+    scroll-padding: 35%;
+  }
+
+p{
+    margin: 0px ;
+    padding: 0px ;
+}
+
+.ptop{
+    margin: auto;
+    width: 87%;
+    padding-top: 0.001rem;
+}
+.cp1{
+    margin-left: 1rem;
+    display: block;
+}
+
+.sp1{
+    font-weight: 800;
+}
+.csp1{
+    display: block;
+    margin-left: 1rem;
+}
+.box1{
+    display: flex;
+    /* margin: 1rem 0rem; */
+    margin-top: 1rem;
+}
+.bp1{
+    margin-left: 1rem;
+}
+.color-change-green{
+    color: rgb(36, 192, 36);
+} 
+.change-color-red{
+    color: red;
+}
+.idx-link ::before{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #620000;
+    visibility: hidden;
+    width: 0px;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.subpoint1{
+    margin-left: 1.5rem;
+    display: block;
+}
+.subpoint1 .box1{
+    display: flex;
+    margin-top: .5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /* font-family: "Raleway", sans-serif; */
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    margin-top: 3rem;
+}
+
+.subpoint1 .sp1{
+    font-weight: 600;
+}
+.head1{
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    margin-top: 3rem;
+    background-color: #f7f7f7;
+    border-radius: .3rem;
+    padding-left: .5rem;
+}
+
+.head2{
+    width: fit-content;
+    font-family: 'Merriweather', serif;
+    font-size: 2rem;
+    margin-top: 3rem;
+    background-color: #f7f7f7;
+    border-radius: .5rem;
+    /* padding-left: .5rem; */
+    padding: 0rem 1rem;
+}
+
+#idx li{
+    padding-top: 1rem;
+}
+
+.np1{
+    padding-top: 1rem;
+}
+
+.head3{
+    width: fit-content;
+    margin: auto;
+    font-family: 'Merriweather', serif;
+    font-size: 2.5rem;
+    padding: 0rem 1rem;
+}
+
+
+
+
+@media only screen and (max-width: 600px){
+    .head1{
+        font-size: 2rem ;
+    }
+}

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{headz | safe}}
+    <style>
+        #editImage {
+            display: block;
+            position: fixed;
+            bottom: 0px;
+            padding: 4ch 3ch;
+            width: 100vw;
+            background: rgb(0 0 0 / 30%);
+            color: white;
+            z-index: 3 !important;
+        }
+
+        #closeImgChange {
+            font-size: 4ch;
+            color: red;
+            margin-bottom: 5ch;
+        }
+
+        #closeImgChange:hover {
+            cursor: pointer;
+        }
+
+        #editLink {
+            display: block;
+            position: fixed;
+            bottom: 0px;
+            padding: 4ch 3ch;
+            width: 100vw;
+            background: rgb(0 0 0 / 30%);
+            color: white;
+            z-index: 3 !important;
+        }
+
+        #closeLinkChange {
+            font-size: 4ch;
+            color: red;
+            margin-bottom: 5ch;
+        }
+
+        #closeLinkChange:hover {
+            cursor: pointer;
+        }
+
+        #top-bar {
+            padding: 1.4ch;
+            background-color: #716868;
+        }
+
+        #save-btn {
+            border-radius: .6ch;
+            background-color: #80e45c;
+            margin-right: 1ch;
+            padding: 0ch 1ch;
+
+        }
+
+        #preview-btn {
+            border-radius: .6ch;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top-bar" class="calssContainer imgChange linkChange imgSelected">
+        <span><strong><a href="{% url 'dashboardView' %}"> Home </a></strong></span>
+        <button id="save-btn" onclick="saveTemplate()">Save</button> <a href="{% url 'previewWebsite' wid=wid%}"
+            target="_blank"><button id="preview-btn">Preview</button></a>
+        <select name="domains" id="domains">
+            {% if website.domain %}
+            <option value="{{website.domain.domain}}">{{website.domain.domain}}</option>
+            <option value="remove">Remove Domain</option>
+            {% else %}
+            <option value="">Choose Domain</option>
+            {% endif %}
+
+            {% for d in domains %}
+            <option value="{{d.domain}}">{{d.domain}}</option>
+            {% endfor %}
+        </select>
+
+        <button id="updateDomain" onclick="updateDomain()">Update Domain</button>
+        {% if website.domain %}
+        <span style="color: white;"> Website is Hosted on <a target="_blank"
+                style="color: black; text-decoration: underline; font-weight: 600;"
+                href="http://{{website.domain.domain}}.{{settings.host_domain}}">{{website.domain.domain}}.{{settings.host_domain}}</a>
+        </span>
+        {% endif %}
+
+        <button id="deleteWebsiteBtn" onclick="deleteWebsite()">Delete Website</button>
+        <script>
+
+            function deleteWebsite() {
+                url = "{% url 'deleteWebsiteAPI' %}";
+                fetch(url, {
+                    method: 'DELETE',
+                    body: JSON.stringify({
+                        wid: '{{wid}}'
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert('Website Deleted');
+
+                        window.location.href = "{% url 'dashboardView' %}"
+                        return response.json();
+                    }
+                    else {
+                        alert("Something Went Wrong")
+                    }
+                    return Promise.reject(response);
+                }).then(function (data) {
+
+                }).catch(function (error) {
+
+                });
+            }
+
+            function updateDomain() {
+                let domain = document.querySelector("#domains").value;
+                const usernameRegex = /^[a-z0-9_.]+$/
+                if (domain == "") {
+                    alert("Please Select One Domain");
+                    return
+                }
+                url = "{% url 'updateDomainAPI' %}";
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        domain: domain,
+                        wid: '{{wid}}'
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert('Domain Updated');
+                        window.location.reload();
+                        return response.json();
+                    }
+                    else {
+                        alert("Something Went Wrong")
+                    }
+                    return Promise.reject(response);
+                }).then(function (data) {
+
+                }).catch(function (error) {
+
+                });
+            }
+
+            function saveTemplate() {
+
+                // Select all editable elements
+                var editableElements = document.querySelectorAll('[contenteditable=true]');
+
+                // Loop through the selected elements
+                editableElements.forEach(function (element) {
+                    // Set the contenteditable attribute to false
+                    element.setAttribute('contenteditable', 'false');
+                });
+
+                console.log('hello');
+                code = document.querySelector('#templateCode').innerHTML;
+
+                url = "{% url 'saveTemplateView' %}";
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        code: code,
+                        wid: '{{wid}}'
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert('Saved');
+                        return response.json();
+                    }
+                    else {
+
+                    }
+                    return Promise.reject(response);
+                }).then(function (data) {
+
+                }).catch(function (error) {
+
+                });
+            }
+        </script>
+    </div>
+    <div id="templateCode">
+
+        {{code| safe}}
+
+    </div>
+
+
+
+    <!-- edit work -->
+    <div id="editImage" style="display: none;">
+        <div id="">
+            <!-- <input type="text" id="imageLink"> -->
+
+            <!-- <input type="text"> -->
+            <!-- <br>
+            <button onclick="changeImage()">Save</button> -->
+
+            <span id="closeImgChange" onclick="closeImgChange()">X</span>
+            <div class="mb-3">
+                <!-- <label for="exampleInputPassword1" class="form-label">Enter link inside box</label> -->
+                <input id="imageLink" placeholder="Enter link inside box" type="text" class="form-control">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="changeImage()">Update</button>
+
+
+
+            <script>
+                function changeImage() {
+                    let li = document.querySelector("#imageLink").value;
+                    // alert(li);
+                    document.querySelector(".imgChange").src = li;
+                }
+                function closeImgChange() {
+                    // alert("hello");
+                    document.querySelector("#editImage").style.display = "none";
+                    document.querySelector(".imgChange").classList.remove("imgChange");
+                    document.querySelector(".calssContainer").classList.add("imgChange");
+                }
+            </script>
+        </div>
+    </div>
+
+    <!-- editing link -->
+    <div id="editLink" style="display: none;">
+        <div id="">
+
+
+            <span id="closeImgChange" onclick="closeLinkChange()">X</span>
+            <div class="mb-3">
+                <!-- <label for="exampleInputPassword1" class="form-label">Enter link inside box</label> -->
+                <input id="aText" placeholder="Enter link inside box" type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <!-- <label for="exampleInputPassword1" class="form-label">Enter link inside box</label> -->
+                <input id="aLink" placeholder="Enter link inside box" type="text" class="form-control">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="changeLink()">Update</button>
+
+
+
+            <script>
+                function changeLink() {
+                    let li = document.querySelector("#aLink").value;
+                    // alert(li);
+                    document.querySelector(".linkChange").href = li;
+                    document.querySelector(".linkChange").innerHTML = document.querySelector("#aText").value;
+                }
+                function closeLinkChange() {
+                    // alert("hello");
+                    document.querySelector("#editLink").style.display = "none";
+                    document.querySelector(".linkChange").classList.remove("linkChange");
+                    document.querySelector(".calssContainer").classList.add("linkChange");
+                }
+            </script>
+        </div>
+    </div>
+
+    </div>
+    <style>
+        #img-upload-preview {
+            width: 50%;
+        }
+    </style>
+    <script>
+        function loadGallery() {
+
+        }
+        document.querySelectorAll("img").forEach(element => {
+            element.addEventListener('click', () => {
+                if (event.altKey) {
+                    document.querySelector(".imgChange").classList.remove("imgChange");
+                    element.classList.add("imgChange");
+                    // document.querySelector("#editImage").style.display = "block";
+                    document.querySelector("#launchGallery").click();
+                    loadUploadedImages();
+
+                    text = "The CTRL key was pressed!";
+                    // document.querySelector("#imageLink").value = element.src;
+                    // alert(text);
+                }
+            })
+        });
+
+        // document.querySelectorAll('.editableClass').forEach(element => {
+        //     element.addEventListener('click', () => {
+        //         if (event.ctrlKey) {
+
+        //             element.contentEditable = true;
+        //         }
+        //     })
+        // })
+        document.querySelectorAll("div, h1, h2, h3, h4, h5, h6, h7, h8, p, span").forEach(element => {
+            element.addEventListener('click', () => {
+                if (event.ctrlKey) {
+
+                    element.contentEditable = true;
+                }
+            })
+        })
+        document.querySelectorAll("a").forEach(element => {
+            element.addEventListener('click', () => {
+                if (event.ctrlKey) {
+                    document.querySelector(".linkChange").classList.remove("linkChange");
+                    element.classList.add("linkChange");
+                    document.querySelector("#editLink").style.display = "block";
+                    text = "The CTRL key was pressed!";
+                    document.querySelector("#aLink").value = element.href;
+                    document.querySelector("#aText").value = element.innerHTML;
+                    // alert(text);
+                }
+            })
+        });
+    </script>
+
+    <!-- gallery model -->
+
+
+    <!-- Button trigger modal -->
+    <button style="display: none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#galleryModal" id="launchGallery">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="galleryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="galleryModalLabel">Gallery</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- gallery nav starts -->
+                    <div id="galleryCard">
+                        <nav id="galleryNav">
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-homemyUploads" data-toggle="tab"
+                                    href="#nav-myUploads" role="tab" aria-controls="nav-myUploads" aria-selected="true"
+                                    onclick="loadUploadedImages()">My Uploads</a>
+                                <a class=" nav-item nav-link" id="nav-Upload-tab" data-toggle="tab" href="#nav-Upload"
+                                    role="tab" aria-controls="nav-Upload" onclick="handleUploadClick()" aria-selected="false">Upload</a>
+                                <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact"
+                                    role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a> -->
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-myUploads" role="tabpanel"
+                                aria-labelledby="nav-myUploads-tab">
+                                <div id="nav-myUploads1">
+                                <div class="galleryImages">
+                                    <img onclick="selectImg(this)" src="/files/files/aa.png" alt="">
+                                    <!-- <button onclick="selectImg(this)">select</button> -->
+                                </div>
+                            </div>
+
+                            <style>
+                                .imgSelected{
+                                    box-shadow: 0 0px 6px 0 #2065f9, 0 0px 2px 0 #2065f9;
+                                }
+                            </style>
+                                <script>
+                                    function handleUploadClick(){
+                                        document.querySelector("#updateImgBtn").style.display = "none";
+                                        document.querySelector(".imgSelected").classList.remove("imgSelected");
+                                        document.querySelector("#top-bar").classList.add("imgSelected");
+                                    }
+                                    function selectImg(ele){
+                                        // console.log(ele.parentElement.querySelector("img").src);
+                                        // document.querySelector(".imgChange").src = ele.parentElement.querySelector("img").src;
+                                        // document.querySelector("#closeGalleryBtn").click();
+                                        document.querySelector(".imgSelected").classList.remove("imgSelected");
+                                        ele.classList.add("imgSelected");
+                                        document.querySelector("#updateImgBtn").style.display = "block";
+                                        
+
+                                    }
+                                    function updateImg(){
+                                        document.querySelector(".imgChange").src = document.querySelector(".imgSelected").src;
+                                        document.querySelector("#updateImgBtn").style.display = "none";
+                                        document.querySelector("#closeGalleryBtn").click();
+                                    }
+                                    
+                                    function loadUploadedImages() {
+                                        url = '{% url "galleryAPI" %}';
+                                        // console.log(url);
+                                        document.querySelector("#nav-myUploads1").innerHTML = "Loading........";
+                                        fetch(url, {
+                                            method: 'GET',
+                                            // body: JSON.stringify({
+                                            //     wid: '{{wid}}'
+                                            // }),
+                                            headers: {
+                                                'Content-type': 'application/json; charset=UTF-8',
+                                                'X-CSRFToken': '{{ csrf_token }}'
+                                            }
+                                        }).then(function (response) {
+                                            if (response.ok) {
+                                                // alert('Saved');
+
+                                                return response.json();
+                                            }
+                                            else {
+
+                                            }
+                                            return Promise.reject(response);
+                                        }).then(function (data) {
+                                            // console.log(data);
+                                            document.querySelector("#nav-myUploads1").innerHTML = "";
+                                            let t;
+                                            document.querySelector("#updateImgBtn").style.display="none";
+                                            document.querySelector("#top-bar").classList.add("imgSelected");
+                                            for (let key in data) {
+                                                a = document.createElement("div");
+                                                t = document.createElement("img");
+                                                t.src = data[key]["file"];
+                                                t.setAttribute('onclick','selectImg(this)')
+                                                a.classList.add("galleryImages");
+                                                a.classList.add("galleryImages");
+                                                a.append(t);
+                                                document.querySelector("#nav-myUploads1").appendChild(a);
+                                                
+                                                
+                                                console.log(data[key]["file"]);
+
+                                            }
+
+                                        }).catch(function (error) {
+
+                                        });
+                                    }
+                                </script>
+                            </div>
+
+                            <!--  -->
+                            <div class="tab-pane fade" id="nav-Upload" role="tabpanel" aria-labelledby="nav-Upload-tab">
+
+                                <input type="file" class="btn btn-secondary" id="uploadImg" onchange="PreviewImage()">
+                                <button type="button" class="btn btn-primary" onclick="uploadImage()">Upload</button>
+                                <br>
+                                <h7>Preview :</h7>
+                                <br>
+                                <img src="#" class="galleryImages" id="uploadPreview" alt="">
+
+                                <script>
+
+                                    function PreviewImage() {
+                                            var oFReader = new FileReader();
+                                            oFReader.readAsDataURL(document.getElementById("uploadImg").files[0]);
+
+                                            oFReader.onload = function (oFREvent) {
+                                                document.getElementById("uploadPreview").src = oFREvent.target.result;
+                                            };
+                                        };
+
+
+                                    function uploadImage() {
+                                        console.log("hello");
+                                        const fileInput = document.getElementById('uploadImg');
+                                        console.log(fileInput.files[0]);
+                                        file = fileInput.files[0];
+                                        const formData = new FormData();
+                                                formData.append('file', file);
+                                                formData.append("msg","hello");
+                                                console.log(formData)
+                                                let url = "{% url 'galleryAPI' %}"
+                                                fetch(url, {
+                                                    method: 'POST',
+                                                    body: formData,
+                                                    headers: {
+                                                        'X-CSRFToken': '{{ csrf_token }}'
+                                                    },
+                                                }).then(response => {
+                                                        if (!response.ok) {
+                                                            throw new Error('Error uploading file');
+                                                        }
+                                                        alert("success");
+                                                        document.querySelector("#nav-homemyUploads").click();
+                                                        return response.json();
+                                                    })
+                                                    .then(data => {
+                                                        // Handle the response data
+                                                        console.log('File uploaded successfully:', data);
+                                                        // Do something with the response data
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error:', error);
+                                                    });
+
+                                        
+                                    }
+                                </script>
+
+                            </div>
+
+                            <!--  -->
+                            <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                aria-labelledby="nav-contact-tab">...</div>
+                        </div>
+                    </div>
+                    <!-- gallery nav ends -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeGalleryBtn" data-dismiss="modal">Close</button>
+                    <button type="button" id="updateImgBtn" class="btn btn-primary" style="display: none;" onclick="updateImg()">Update Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .galleryImages {
+            width: 18ch;
+            /* width: -webkit-fill-available; */
+            margin: 2ch;
+
+        }
+        .galleryImages img{
+            width: 18ch;
+        }
+
+        #nav-myUploads1 {
+            display: flex;
+            flex-wrap: wrap;
+            
+        }
+        
+
+        #galleryModal {
+            /* max-height: 70vh; */
+        }
+
+        #nav-tabContent {
+            max-height: 50vh;
+            height: 50vh;
+            overflow: scroll;
+        }
+    </style>
+    <!-- gallery model end -->
+</body>
+
+</html>

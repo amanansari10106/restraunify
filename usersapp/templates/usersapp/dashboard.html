@@ -1,0 +1,412 @@
+{% extends 'usersapp/base.html' %}
+
+{% block head %}
+<style>
+    #container {
+        width: 100%;
+        height: 100%;
+        background-color: rgb(208, 208, 208);
+
+    }
+
+    #container2 {
+        display: flex;
+    }
+
+    #profileContainer {
+        flex: 1;
+        background-color: white;
+        margin: 4em;
+        padding: 2ch 2ch 2ch 2ch;
+        border-radius: 4px;
+
+    }
+
+    #subNavCard {
+        flex: 2;
+        background-color: white;
+        margin: 4em;
+        margin-left: 0 !important;
+        padding: 2ch 2ch 2ch 2ch;
+        border-radius: 4px;
+        padding-top: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .templatesCard img {
+        height: 11ch;
+        /* width: 17ch; */
+        width: 100%;
+
+    }
+
+    .templatesCard {
+        margin: 2ch;
+        /* width: fit-content; */
+        width: 182px;
+
+    }
+
+    .templatesTitle {
+        margin: .5ch 1ch;
+        font-weight: 600;
+
+    }
+
+    .templatesTitle:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+    }
+
+    .templatesDescription {
+        margin: .5ch 1ch;
+        line-height: 1em;
+        font-size: .8em;
+    }
+
+    #templatez .indiv {
+        display: flex;
+        flex-grow: wrap;
+    }
+
+    #websites .indiv {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #myTabContent {
+        max-height: 70vh;
+        height: 70vh;
+        overflow: scroll;
+    }
+
+    #domain-form {}
+</style>
+{% endblock %}
+
+
+
+{% block body %}
+<div id="container">
+    <div id="container2">
+        <div id="profileContainer">
+            <strong> Profile Details </strong> <br>
+            <strong>User Name : </strong> {{user.cuser.username}} <br>
+            <strong> Name : </strong>{{user.cuser.fName }} {{user.cuser.lName}} <br>
+            <strong> Phone No. : </strong>{{user.cuser.phoneNo }} <br>
+            <strong> Email : </strong>{{user.cuser.email }} <br>
+            {% if user.cuser.is_verified %}
+            <strong style="text-decoration: underline; color:rgb(60, 221, 60)">Verified</strong>
+            {% else %}
+            {% endif %}
+
+        </div>
+        <div id="subNavCard">
+
+            <div id="subNavBar">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <!-- <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="templates-tab" data-bs-toggle="tab" data-bs-target="#templates"
+                            type="button" role="tab" aria-controls="templates" aria-selected="true">Templates</button>
+                    </li> -->
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link " id="templatez-tab" data-bs-toggle="tab" data-bs-target="#templatez"
+                            type="button" role="tab" aria-controls="templatez" aria-selected="false">Templates</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="websites-tab" data-bs-toggle="tab" data-bs-target="#websites"
+                            type="button" role="tab" aria-controls="websites" aria-selected="false">Websites</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="domains-tab" data-bs-toggle="tab" data-bs-target="#domains"
+                            type="button" role="tab" aria-controls="domains" aria-selected="true">Domains</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- <div class="tab-pane fade show active" id="templates" role="tabpanel" aria-labelledby="templates-tab"> -->
+
+                    <!-- {% if templates %}
+                        {% for t in templates %}
+                        <div class="templatesCard">
+                            <img src="{{t.image}}"
+                                alt="">
+                            <a href="{%url 'createTemplate' templateid=t.id %}"><div class="templatesTitle">{{t.title}}</div></a>
+                            <div class="templatesDescription">an elegant restraunt template for beginers</div>
+                        </div>
+                        {% endfor %}
+                        {% endif %} -->
+
+
+
+
+
+                    <!-- </div> -->
+                    <!-- asdad sad -->
+
+                    <!-- <div class="tab-pane fade show active" id="templatez" role="tabpanel" aria-labelledby="templatez-tab"> -->
+                    <div class="tab-pane fade" id="templatez" role="tabpanel" aria-labelledby="templatez-tab">
+                        <div class="indiv">
+                            {% if templates %}
+                            {% for t in templates %}
+                            <div class="templatesCard">
+                                <img src="{{t.image}}" alt="">
+                                <a data-selected="false" data-tid="{{t.id}}" data-templateName="{{t.title}}"
+                                    id="createWebsiteLink">
+                                    <div class="templatesTitle">{{t.title}}</div>
+                                </a>
+                                <div class="templatesDescription">an elegant restraunt template for beginers</div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+                    <!-- asdsafdfdsf -->
+
+                    <div class="tab-pane fade" id="websites" role="tabpanel" aria-labelledby="websites-tab">
+                        <div class="indiv">
+                            {% if websites %}
+                            {% for w in websites %}
+                            <div class="templatesCard">
+                                <img src="{{w.template.image}}" alt="">
+                                <a href="{%url 'editTemplate' wid=w.id %}">
+                                    <div class="templatesTitle">{{w.name}}</div>
+                                </a>
+                                <!-- <div class="templatesDescription">an elegant restraunt template for beginers</div> -->
+                                {% if w.domain %}
+                                <div class="templatesDescription">Domain : <a
+                                        href="http://{{w.domain.domain}}.{{settings.host_domain}}"> {{w.domain.domain}}
+                                    </a></div>
+                                {% else %}
+                                <div class="templatesDescription">Domain : Not Connected</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade  show active" id="domains" role="tabpanel" aria-labelledby="domains-tab">
+                        <div id="domainForm">
+                            <input type="text" id="domainNameInput">
+                            <button onclick="GetDomain()">Get Domain</button>
+                        </div>
+                        <br>
+
+                        {% for domain in domains %}
+                        <div class="domain-links"><strong>{{domain.domain}}.{{settings.host_domain}}</strong>
+                            {% if domain.userwebsites %}
+                               <span> Connected to : <strong>{{domain.userwebsites.name}}</strong> </span>
+                            {% else %}
+                               <span> Connection : <strong>Not Connected</strong> </span>
+                            {% endif %}
+                            <span></span>
+                            <span value="hello" class="domain-delete-link" data-domainid="{{domain.id}}"
+                                onclick="deleteDomain(this)">delete</span>
+                        </div>
+                        {% endfor %}
+
+
+                        <style>
+                            .domain-links {
+                                /* background-color: red; */
+                                margin: 1ch;
+                                padding: 1ch;
+                                border-bottom: 1.5px solid black;
+                            }
+
+                            .domain-delete-link:hover {
+                                cursor: pointer;
+                            }
+
+                            .domain-delete-link {
+                                text-decoration: underline;
+                                color: red;
+                            }
+                        </style>
+                        <script>
+
+                            function deleteDomain(element) {
+                                let did = element.getAttribute("data-domainid");
+
+                                url = "{% url 'deleteDomainAPI' %}";
+                                fetch(url, {
+                                    method: 'DELETE',
+                                    body: JSON.stringify({
+                                        did: did
+                                    }),
+                                    headers: {
+                                        'Content-type': 'application/json; charset=UTF-8',
+                                        'X-CSRFToken': '{{ csrf_token }}'
+                                    }
+                                }).then(function (response) {
+                                    if (response.ok) {
+                                        alert('Doamin deleted successfully');
+                                        element.parentElement.style = "display:none";
+                                        return response.json();
+                                    }
+                                    else {
+                                        alert('Something Went Wrong');
+                                    }
+                                    return Promise.reject(response);
+                                }).then(function (data) {
+
+                                }).catch(function (error) {
+
+                                });
+                            }
+
+                            function GetDomain() {
+                                let domain = document.querySelector("#domainNameInput").value;
+                                const usernameRegex = /^[a-z0-9_.]+$/
+                                if (!usernameRegex.test(domain)) {
+                                    alert("Domainname Can't be empty");
+                                    return;
+                                }
+                                url = "{% url 'getDomainAPI' %}";
+                                fetch(url, {
+                                    method: 'POST',
+                                    body: JSON.stringify({
+                                        domain: domain
+                                    }),
+                                    headers: {
+                                        'Content-type': 'application/json; charset=UTF-8',
+                                        'X-CSRFToken': '{{ csrf_token }}'
+                                    }
+                                }).then(function (response) {
+                                    if (response.ok) {
+                                        alert('Doamin Alloted');
+                                        window.location.reload();
+                                        return response.json();
+                                    }
+                                    else {
+                                        alert('Domain Not Available Enter Something Else');
+                                    }
+                                    return Promise.reject(response);
+                                }).then(function (data) {
+
+                                }).catch(function (error) {
+
+                                });
+                            }
+                        </script>
+                        <style>
+                            #domainForm {
+                                margin: 1ch;
+                            }
+                        </style>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll("#createWebsiteLink").forEach(ele => {
+        ele.addEventListener('click', () => {
+            ele.setAttribute("data-selected", "true");
+            document.querySelector("#templateName-createWebsite").setAttribute("data-tid", ele.getAttribute("data-tid"));
+            document.querySelector("#createWebsite").style.display = "block";
+            document.querySelector("#templateName-createWebsite").innerHTML = ele.getAttribute("data-templateName");
+
+        })
+    })
+</script>
+
+<div id="createWebsite" style="display: none;">
+    <div id="">
+
+        <span id="closeCreateWebsite" onclick="closeCreateWebsite()">X</span>
+
+        <div class="mb-3">
+            <strong id="templateName-createWebsite" data-tid=""></strong>
+        </div>
+        <div class="mb-3">
+            <!-- <label for="exampleInputPassword1" class="form-label">Enter link inside box</label> -->
+            <input id="websiteName" placeholder="Enter Website Name" type="text" class="form-control">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="createWebsite()">Create Website</button>
+
+        <style>
+            #createWebsite {
+                display: block;
+                position: fixed;
+                bottom: 0px;
+                padding: 4ch 3ch;
+                width: 100vw;
+                background: rgb(0 0 0 / 30%);
+                color: white;
+                z-index: 3 !important;
+            }
+
+            #closeCreateWebsite {
+                font-size: 4ch;
+                color: red;
+                margin-bottom: 5ch;
+            }
+
+            #closeCreateWebsite:hover {
+                cursor: pointer;
+            }
+        </style>
+
+
+        <script>
+
+
+
+            function createWebsite() {
+                let wname = document.querySelector("#websiteName").value;
+                let tid = document.querySelector("#templateName-createWebsite").getAttribute("data-tid");
+                url = "{% url 'createWebsiteAPI' %}";
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        wname: wname,
+                        tid: tid
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert('Website Created Successfully');
+
+                        return response.json();
+                    }
+                    else {
+                        alert('Something Went Wrong');
+                    }
+                    return Promise.reject(response);
+                }).then(function (data) {
+                    console.log(data['wid']);
+                    let st = window.open(`/templates/edit/${data['wid']}/`);
+                    window.location.reload();
+                    window.open(st);
+                }).catch(function (error) {
+
+                });
+
+            }
+
+            function closeCreateWebsite() {
+
+                document.querySelector("#createWebsite").style.display = "none";
+
+            }
+        </script>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block script %}
+{% endblock %}
